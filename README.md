@@ -1,4 +1,4 @@
-# nbdev template
+# elec_consumption
 
-Use this template to more easily create your nbdev project.
+Cluster analysis and statistical learning for electricity consumption profiles
 
