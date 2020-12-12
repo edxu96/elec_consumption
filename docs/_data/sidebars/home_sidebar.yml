@@ -9,9 +9,6 @@ entries:
     - output: web,pdf
       title: Overview
       url: /
-    - output: web,pdf
-      title: elec_consumption
-      url: core.html
     output: web
     title: elec_consumption
   output: web
