@@ -1,6 +1,5 @@
 {
   "elec_consumption": {
-    "Overview": "/",
-    "elec_consumption": "core.html"
+    "Overview": "/"
   }
 }
