@@ -1,4 +1,4 @@
-"""Func to visualise clustering results."""
+"""Functions to evaluate and visualise clustering results."""
 from sklearn.metrics import silhouette_samples, silhouette_score
 import matplotlib.cm as cm
 import matplotlib.pyplot as plt

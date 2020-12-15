@@ -9,6 +9,9 @@ entries:
     - output: web,pdf
       title: Overview
       url: /
+    - output: web,pdf
+      title: 2. Cluster Analysis
+      url: cluster.html
     output: web
     title: elec_consumption
   output: web
