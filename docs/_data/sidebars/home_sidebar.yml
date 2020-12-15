@@ -10,7 +10,7 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
-      title: 2. Cluster Analysis
+      title: Cluster Analysis
       url: cluster.html
     output: web
     title: elec_consumption

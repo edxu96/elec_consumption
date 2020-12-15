@@ -33,8 +33,10 @@ def plot_silhouette(
     # This gives a perspective into the density and separation of the formed
     # clusters
     silhouette_avg = silhouette_score(data, cluster_labels)
-    print("For n_clusters =", n_clusters,
-          "The average silhouette_score is :", silhouette_avg)
+    print(
+        f"For n_clusters = {n_clusters}, ",
+        f"the average silhouette_score is : {silhouette_avg}."
+    )
 
     # Compute the silhouette scores for each sample
     sample_silhouette_values = silhouette_samples(data, cluster_labels)
