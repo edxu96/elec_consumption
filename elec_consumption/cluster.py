@@ -14,5 +14,5 @@ def cal_inertia(n_clusters: int) -> float:
     """
     km = TimeSeriesKMeans(
         n_clusters=n_clusters, verbose=False, random_state=_seed)
-    km.fit_predict(mts)
+    km.fit_predict(mts['fill0'])
     return km.inertia_
