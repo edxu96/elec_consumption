@@ -67,8 +67,79 @@ nb_path: "00_cluster.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="1.-Agglomerative-Hierarchical-(Single-Linkage)">1. Agglomerative Hierarchical (Single Linkage)<a class="anchor-link" href="#1.-Agglomerative-Hierarchical-(Single-Linkage)"> </a></h2><p><code>AgglomerativeClustering</code> in <code>sklearn</code> doesn't work if there is NaN in original data set, though it doesn't matter if single linkage is used.</p>
+<h2 id="1.-Agglomerative-Hierarchical-(Single-Linkage)">1. Agglomerative Hierarchical (Single Linkage)<a class="anchor-link" href="#1.-Agglomerative-Hierarchical-(Single-Linkage)"> </a></h2><p>Ordinary <code>AgglomerativeClustering</code> in <code>sklearn</code> doesn't work if there is NaN in original data set, though it doesn't matter if single linkage is used.</p>
 
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Inspect NaN entries in correlation matrix and set as 0.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">cluster</span><span class="o">.</span><span class="n">inspect_nan_corr</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;corr&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="p">[(</span><span class="mi">463</span><span class="p">,</span> <span class="mi">485</span><span class="p">),</span> <span class="p">(</span><span class="mi">485</span><span class="p">,</span> <span class="mi">463</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Precomputed correlation matrix is used, but result shows big differences in sizes of clusters. So the method cannot be applied.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n_clusters</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">AgglomerativeClustering</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">n_clusters</span><span class="p">,</span> <span class="n">affinity</span><span class="o">=</span><span class="s1">&#39;precomputed&#39;</span><span class="p">,</span> <span class="n">linkage</span><span class="o">=</span><span class="s1">&#39;single&#39;</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;corr&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_clusters</span><span class="p">)])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[497, 1, 1, 1]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="2.-Min-Spanning-Tree-on-Correlation-Matrix">2. Min Spanning Tree on Correlation Matrix<a class="anchor-link" href="#2.-Min-Spanning-Tree-on-Correlation-Matrix"> </a></h2>
 </div>
 </div>
 </div>

@@ -177,3 +177,17 @@ def plot_corr_mat(
         corr_mat.values, center=0, cmap="bwr",
         xticklabels=False, yticklabels=False,
     )
+
+
+def inspect_nan_corr(mat: DataFrame) -> List[tuple]:
+    """Inspect list of tuples whose correlations are NaN.
+
+    Args:
+        mat: correlation matrix.
+
+    Returns:
+        Coordinates of NaN entries.
+    """
+    res = mat.fillna(100)
+    res = res.stack()
+    return res[res > 1].index.to_list()
