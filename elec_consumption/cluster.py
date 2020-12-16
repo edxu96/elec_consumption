@@ -1,5 +1,12 @@
 """Functions for clustering analysis."""
+import itertools
+from typing import List
+
+from loguru import logger
 import networkx as nx
+from networkx.utils.misc import pairwise
+import numpy as np
+import pandas as pd
 from pandas.core.frame import DataFrame
 
 __all__ = ['init_graph_weight']
@@ -32,6 +39,9 @@ def mst_corr(df: DataFrame) -> nx.Graph:
 def keep_cluster(tree: nx.Graph, n_clusters: int) -> DataFrame:
     """Remove edges with low correlations to have clusters.
 
+    Warning:
+        The operation usually results in isolated nodes.
+
     Args:
         tree: [description]
         n_clusters: [description]
@@ -56,7 +66,76 @@ def keep_cluster(tree: nx.Graph, n_clusters: int) -> DataFrame:
 
 
 def draw_graph(g: nx.Graph, pos: dict = None):
+    """Plot graph using given coordinates.
+
+    Args:
+        g: graph to be plotted.
+        pos: coordinates of nodes. Defaults to None.
+    """
     nx.draw(
         g, pos, with_labels=True, font_weight='bold',
         node_size=600, node_color='lightblue',
     )
+
+
+def gather_nodes_info(g: nx.Graph) -> DataFrame:
+    """Collect info about nodes in a graph.
+
+    Note:
+        Nodes with high degrees are expected to be centers of clusters.
+
+    Args:
+        g: some graph.
+
+    Returns:
+        Degrees of nodes.
+    """
+    res = pd.DataFrame.from_dict(dict(g.degree()), orient='index')
+    res.columns = ['degree']
+    res.sort_values('degree', ascending=False, inplace=True)
+    return res
+
+
+def find_weak_edge(tree: nx.Graph, nodes: list) -> List[tuple]:
+    """Find weakest edge between given list of nodes.
+
+    Args:
+        tree: [description]
+        nodes: [description]
+
+    Returns:
+        List of edges to be removed.
+    """
+    if not nx.is_tree(tree):
+        logger.warning('The passed graph is not a tree.')
+
+    pairs = itertools.combinations(nodes, r=2)
+    edges_to_remove = []
+    for source, target in pairs:
+        paths = nx.shortest_simple_paths(tree, source, target)
+        paths = list(paths)
+        if len(paths) > 1:
+            logger.warning('More than one path in tree.')
+        path = paths[0]
+        edges_path = list(pairwise(path))
+
+        weights = [tree.edges[edge]['corr'] for edge in edges_path]
+        idx = np.argmin(weights)
+        try:
+            if len(idx) > 1:
+                logger.warning(
+                    f'There are multiple edges with min weights: {idx}.'
+                )
+        except TypeError:
+            pass
+
+        idx_edge = edges_path[idx]
+        edges_to_remove.append(idx_edge)
+
+    for edge in edges_to_remove:
+        try:
+            tree.remove_edge(*edge)
+        except nx.NetworkXError:
+            pass
+
+    return edges_to_remove
