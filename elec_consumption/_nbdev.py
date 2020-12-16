@@ -2,9 +2,9 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"cal_inertia": "00_cluster.ipynb"}
+index = {}
 
-modules = ["cluster.py"]
+modules = []
 
 doc_url = "https://edxu96.github.io/elec_consumption/"
 
