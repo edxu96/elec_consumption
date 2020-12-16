@@ -16,13 +16,24 @@ __all__ = ['init_graph_weight']
 def mst_corr(df: DataFrame) -> nx.Graph:
     """Init complete graph with correlations and exec min span tree.
 
+    Warning:
+        NaN entries are filled with 0 automatically.
+
     Args:
         df: original longitudinal in wide format.
 
     Returns:
         Min spanning tree based on pearson correlation coefficients.
     """
-    corr_long = df.corr().stack().to_frame()
+    corr_long = df.corr()
+
+    # Set NaN entries to 0
+    nan_entries = inspect_nan_corr(corr_long)
+    if nan_entries:
+        for entry in nan_entries:
+            corr_long.loc[entry[0], entry[1]] = 0
+
+    corr_long = corr_long.stack().to_frame()
     corr_long.index.names = ['source', 'target']
     corr_long.columns = ['corr']
     corr_long.reset_index(inplace=True)
@@ -97,12 +108,12 @@ def gather_nodes_info(g: nx.Graph) -> DataFrame:
     return res
 
 
-def find_weak_edge(tree: nx.Graph, nodes: list) -> List[tuple]:
-    """Find weakest edge between given list of nodes.
+def remove_weak_edges(tree: nx.Graph, representatives: list) -> dict:
+    """Remove weakest edges between representative entities one-by-one.
 
     Args:
         tree: [description]
-        nodes: [description]
+        representatives: [description]
 
     Returns:
         List of edges to be removed.
@@ -110,36 +121,39 @@ def find_weak_edge(tree: nx.Graph, nodes: list) -> List[tuple]:
     if not nx.is_tree(tree):
         logger.warning('The passed graph is not a tree.')
 
-    pairs = itertools.combinations(nodes, r=2)
-    edges_to_remove = []
+    pairs = itertools.combinations(representatives, r=2)
     for source, target in pairs:
-        paths = nx.shortest_simple_paths(tree, source, target)
-        paths = list(paths)
-        if len(paths) > 1:
-            logger.warning('More than one path in tree.')
-        path = paths[0]
-        edges_path = list(pairwise(path))
-
-        weights = [tree.edges[edge]['corr'] for edge in edges_path]
-        idx = np.argmin(weights)
         try:
-            if len(idx) > 1:
-                logger.warning(
-                    f'There are multiple edges with min weights: {idx}.'
-                )
-        except TypeError:
+            paths = nx.shortest_simple_paths(tree, source, target)
+            paths = list(paths)
+            if len(paths) > 1:
+                logger.warning('More than one path in tree.')
+            path = paths[0]
+            edges_path = list(pairwise(path))
+
+            weights = [tree.edges[edge]['corr'] for edge in edges_path]
+            idx = np.argmin(weights)
+            try:
+                if len(idx) > 1:
+                    logger.warning(
+                        f'There are multiple edges with min weights: {idx}.'
+                    )
+            except TypeError:
+                pass
+
+            idx_edge = edges_path[idx]
+            if idx_edge in tree.edges:
+                tree.remove_edge(*idx_edge)
+                print(f"Edge {idx_edge[0]}-{idx_edge[1]} has been removed.")
+        except nx.NetworkXNoPath:  # No path between given pair.
             pass
 
-        idx_edge = edges_path[idx]
-        edges_to_remove.append(idx_edge)
+    components = {}
+    for re in representatives:
+        components[re] = list(nx.node_connected_component(tree, re))
+        components[re].sort()
 
-    for edge in edges_to_remove:
-        try:
-            tree.remove_edge(*edge)
-        except nx.NetworkXError:
-            pass
-
-    return edges_to_remove
+    return components
 
 
 def plot_corr_mat(
@@ -188,6 +202,9 @@ def inspect_nan_corr(mat: DataFrame) -> List[tuple]:
     Returns:
         Coordinates of NaN entries.
     """
-    res = mat.fillna(100)
-    res = res.stack()
-    return res[res > 1].index.to_list()
+    df = mat.fillna(100)
+    df = df.stack()
+    res = df[df > 1].index.to_list()
+    if res:
+        logger.warning(f'There are NaN entries: {res}.')
+    return res
