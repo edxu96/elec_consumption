@@ -1,5 +1,11 @@
 """Functions for clustering analysis."""
+import itertools
+from typing import List
+
+from loguru import logger
 import networkx as nx
+from networkx.utils.misc import pairwise
+import numpy as np
 import pandas as pd
 from pandas.core.frame import DataFrame
 
@@ -32,6 +38,9 @@ def mst_corr(df: DataFrame) -> nx.Graph:
 
 def keep_cluster(tree: nx.Graph, n_clusters: int) -> DataFrame:
     """Remove edges with low correlations to have clusters.
+
+    Warning:
+        The operation usually results in isolated nodes.
 
     Args:
         tree: [description]
@@ -85,3 +94,48 @@ def gather_nodes_info(g: nx.Graph) -> DataFrame:
     res.columns = ['degree']
     res.sort_values('degree', ascending=False, inplace=True)
     return res
+
+
+def find_weak_edge(tree: nx.Graph, nodes: list) -> List[tuple]:
+    """Find weakest edge between given list of nodes.
+
+    Args:
+        tree: [description]
+        nodes: [description]
+
+    Returns:
+        List of edges to be removed.
+    """
+    if not nx.is_tree(tree):
+        logger.warning('The passed graph is not a tree.')
+
+    pairs = itertools.combinations(nodes, r=2)
+    edges_to_remove = []
+    for source, target in pairs:
+        paths = nx.shortest_simple_paths(tree, source, target)
+        paths = list(paths)
+        if len(paths) > 1:
+            logger.warning('More than one path in tree.')
+        path = paths[0]
+        edges_path = list(pairwise(path))
+
+        weights = [tree.edges[edge]['corr'] for edge in edges_path]
+        idx = np.argmin(weights)
+        try:
+            if len(idx) > 1:
+                logger.warning(
+                    f'There are multiple edges with min weights: {idx}.'
+                )
+        except TypeError:
+            pass
+
+        idx_edge = edges_path[idx]
+        edges_to_remove.append(idx_edge)
+
+    for edge in edges_to_remove:
+        try:
+            tree.remove_edge(*edge)
+        except nx.NetworkXError:
+            pass
+
+    return edges_to_remove
