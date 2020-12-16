@@ -5,21 +5,21 @@ SRC = $(wildcard ./*.ipynb)
 all: elec_consumption docs test
 
 elec_consumption: $(SRC)
-	nbdev_build_lib
+	poetry run nbdev_build_lib
 	touch elec_consumption
 
 sync:
-	nbdev_update_lib
+	poetry run nbdev_update_lib
 
 docs_serve: docs
 	cd docs && bundle exec jekyll serve
 
 docs: $(SRC)
-	nbdev_build_docs
+	poetry run nbdev_build_docs
 	touch docs
 
 test:
-	nbdev_test_nbs
+	poetry run nbdev_test_nbs
 
 release: pypi conda_release
 	nbdev_bump_version
