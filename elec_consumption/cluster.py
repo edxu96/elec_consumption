@@ -1,6 +1,6 @@
 """Functions for clustering analysis."""
 import itertools
-from typing import List
+from typing import List, Optional
 
 from loguru import logger
 import networkx as nx
@@ -8,6 +8,7 @@ from networkx.utils.misc import pairwise
 import numpy as np
 import pandas as pd
 from pandas.core.frame import DataFrame
+import seaborn as sns
 
 __all__ = ['init_graph_weight']
 
@@ -139,3 +140,40 @@ def find_weak_edge(tree: nx.Graph, nodes: list) -> List[tuple]:
             pass
 
     return edges_to_remove
+
+
+def plot_corr_mat(
+    g: nx.Graph, representatives: list, df: DataFrame,
+    num_emptys: Optional[int] = 5
+):
+    """Plot heatmap for re-indexed correlation matrix.
+
+    Warning:
+        There is no check implemented, so make sure arguments match.
+
+    Args:
+        g: clustered graph.
+        representatives: all the representative entities.
+        df: original data set.
+        num_emptys: number of empty columns to separate blocks. Default
+            to be 5.
+    """
+    idx = []
+    emptys = ['nan'] * num_emptys
+    for re in representatives:
+        idx_new = list(nx.node_connected_component(g, re))
+        idx_new.sort()
+        idx = idx + idx_new + emptys
+
+    # Remove last several empty columns and rows.
+    for i in range(num_emptys):
+        idx.pop()
+
+    corr_mat = df.corr()
+    corr_mat = corr_mat.reindex(idx, fill_value=0)
+    corr_mat = corr_mat.reindex(idx, axis="columns", fill_value=0)
+
+    sns.heatmap(
+        corr_mat.values, center=0, cmap="bwr",
+        xticklabels=False, yticklabels=False,
+    )
