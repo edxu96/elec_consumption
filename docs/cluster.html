@@ -493,37 +493,6 @@ nb_path: "00_cluster.ipynb"
 </div>
     {% endraw %}
 
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">labels_dict</span><span class="p">[</span><span class="s1">&#39;daily&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cluster</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">components</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>2020-12-16 18:49:55.147 | INFO     | elec_consumption.cluster:get_labels:227 - There are 500 units.
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Clustering results based on daily profiles:</p>
@@ -607,16 +576,6 @@ nb_path: "00_cluster.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">metrics</span><span class="o">.</span><span class="n">adjusted_rand_score</span><span class="p">(</span><span class="n">labels_dict</span><span class="p">[</span><span class="s1">&#39;hourly&#39;</span><span class="p">],</span> <span class="n">labels_dict</span><span class="p">[</span><span class="s1">&#39;daily&#39;</span><span class="p">])</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 <div class="output_wrapper">
 <div class="output">
@@ -647,16 +606,6 @@ nb_path: "00_cluster.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">metrics</span><span class="o">.</span><span class="n">adjusted_mutual_info_score</span><span class="p">(</span><span class="n">labels_dict</span><span class="p">[</span><span class="s1">&#39;hourly&#39;</span><span class="p">],</span> <span class="n">labels_dict</span><span class="p">[</span><span class="s1">&#39;daily&#39;</span><span class="p">])</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 <div class="output_wrapper">
 <div class="output">
@@ -680,16 +629,6 @@ nb_path: "00_cluster.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">metrics</span><span class="o">.</span><span class="n">normalized_mutual_info_score</span><span class="p">(</span><span class="n">labels_dict</span><span class="p">[</span><span class="s1">&#39;hourly&#39;</span><span class="p">],</span> <span class="n">labels_dict</span><span class="p">[</span><span class="s1">&#39;daily&#39;</span><span class="p">])</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 <div class="output_wrapper">
 <div class="output">
