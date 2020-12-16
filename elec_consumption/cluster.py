@@ -1,5 +1,6 @@
 """Functions for clustering analysis."""
 import networkx as nx
+import pandas as pd
 from pandas.core.frame import DataFrame
 
 __all__ = ['init_graph_weight']
@@ -56,7 +57,31 @@ def keep_cluster(tree: nx.Graph, n_clusters: int) -> DataFrame:
 
 
 def draw_graph(g: nx.Graph, pos: dict = None):
+    """Plot graph using given coordinates.
+
+    Args:
+        g: graph to be plotted.
+        pos: coordinates of nodes. Defaults to None.
+    """
     nx.draw(
         g, pos, with_labels=True, font_weight='bold',
         node_size=600, node_color='lightblue',
     )
+
+
+def gather_nodes_info(g: nx.Graph) -> DataFrame:
+    """Collect info about nodes in a graph.
+
+    Note:
+        Nodes with high degrees are expected to be centers of clusters.
+
+    Args:
+        g: some graph.
+
+    Returns:
+        Degrees of nodes.
+    """
+    res = pd.DataFrame.from_dict(dict(g.degree()), orient='index')
+    res.columns = ['degree']
+    res.sort_values('degree', ascending=False, inplace=True)
+    return res
