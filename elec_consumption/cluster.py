@@ -1,6 +1,6 @@
 """Functions for clustering analysis."""
 import itertools
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from loguru import logger
 import networkx as nx
@@ -144,7 +144,9 @@ def remove_weak_edges(tree: nx.Graph, representatives: list) -> dict:
             idx_edge = edges_path[idx]
             if idx_edge in tree.edges:
                 tree.remove_edge(*idx_edge)
-                print(f"Edge {idx_edge[0]}-{idx_edge[1]} has been removed.")
+                logger.debug(
+                    f"Edge {idx_edge[0]}-{idx_edge[1]} has been removed."
+                )
         except nx.NetworkXNoPath:  # No path between given pair.
             pass
 
@@ -208,3 +210,29 @@ def inspect_nan_corr(mat: DataFrame) -> List[tuple]:
     if res:
         logger.warning(f'There are NaN entries: {res}.')
     return res
+
+
+def get_labels(components: Dict[int, List[int]]) -> List[int]:
+    """Get integer labels for a set of components.
+
+    Warning:
+        Names of units must be integer in this function, because labels
+        are sorted according to those integer values.
+
+    Args:
+        components: a set of components keyed by representative units.
+
+    Returns:
+        Integer labels with 0 being the minimum value.
+    """
+    units = [item for sublist in components.values() for item in sublist]
+    logger.info(f"There are {len(units)} units.")
+
+    label = 0
+    labels = [0] * len(units)
+    for key in components.keys():
+        for i in components[key]:
+            labels[i] = label
+        label += 1
+
+    return labels

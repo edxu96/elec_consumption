@@ -258,7 +258,13 @@ nb_path: "00_cluster.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="4.-Use-Hourly-Profiles">4. Use Hourly Profiles<a class="anchor-link" href="#4.-Use-Hourly-Profiles"> </a></h2>
+<h2 id="4.-Results-for-500-Profiles">4. Results for 500 Profiles<a class="anchor-link" href="#4.-Results-for-500-Profiles"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Using-Hourly-Profiles">Using Hourly Profiles<a class="anchor-link" href="#Using-Hourly-Profiles"> </a></h3>
 </div>
 </div>
 </div>
@@ -408,7 +414,7 @@ nb_path: "00_cluster.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="5.-Use-Daily-Profiles">5. Use Daily Profiles<a class="anchor-link" href="#5.-Use-Daily-Profiles"> </a></h2>
+<h3 id="Using-Daily-Profiles">Using Daily Profiles<a class="anchor-link" href="#Using-Daily-Profiles"> </a></h3>
 </div>
 </div>
 </div>
@@ -487,6 +493,37 @@ nb_path: "00_cluster.ipynb"
 </div>
     {% endraw %}
 
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">labels_dict</span><span class="p">[</span><span class="s1">&#39;daily&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cluster</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(</span><span class="n">components</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>2020-12-16 18:49:55.147 | INFO     | elec_consumption.cluster:get_labels:227 - There are 500 units.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Clustering results based on daily profiles:</p>
@@ -556,7 +593,126 @@ nb_path: "00_cluster.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="6.-Four-Cluster-using-k-Means">6. Four Cluster using k-Means<a class="anchor-link" href="#6.-Four-Cluster-using-k-Means"> </a></h2><p>For example, assume there are 4 clusters.</p>
+<h3 id="Compare-Results">Compare Results<a class="anchor-link" href="#Compare-Results"> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Adjusted Rand index: (1 is best; -1 is worst)</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">metrics</span><span class="o">.</span><span class="n">adjusted_rand_score</span><span class="p">(</span><span class="n">labels_dict</span><span class="p">[</span><span class="s1">&#39;hourly&#39;</span><span class="p">],</span> <span class="n">labels_dict</span><span class="p">[</span><span class="s1">&#39;daily&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>-0.015765706306130705</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Normalized Mutual Information (NMI) and Adjusted Mutual Information (AMI). NMI is often used in the literature, while AMI was proposed more recently and is normalized against chance. (1 is best; negative is bad)</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">metrics</span><span class="o">.</span><span class="n">adjusted_mutual_info_score</span><span class="p">(</span><span class="n">labels_dict</span><span class="p">[</span><span class="s1">&#39;hourly&#39;</span><span class="p">],</span> <span class="n">labels_dict</span><span class="p">[</span><span class="s1">&#39;daily&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.016227773691172433</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">metrics</span><span class="o">.</span><span class="n">normalized_mutual_info_score</span><span class="p">(</span><span class="n">labels_dict</span><span class="p">[</span><span class="s1">&#39;hourly&#39;</span><span class="p">],</span> <span class="n">labels_dict</span><span class="p">[</span><span class="s1">&#39;daily&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.02636824782216774</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="5.-Four-Cluster-using-k-Means">5. Four Cluster using k-Means<a class="anchor-link" href="#5.-Four-Cluster-using-k-Means"> </a></h2><p>For example, assume there are 4 clusters.</p>
 
 </div>
 </div>
