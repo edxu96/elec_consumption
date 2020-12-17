@@ -352,15 +352,13 @@ nb_path: "01_forecast.ipynb"
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Pseudo-Out-of-Sample-Model-Validation">Pseudo Out-of-Sample Model Validation<a class="anchor-link" href="#Pseudo-Out-of-Sample-Model-Validation"> </a></h3><p>There is a systematic way to validate different models. It is challenging to conduct a cross validation for time series models, especially when there is long-term trend.</p>
 <p>Pseudo out-of-sample validation is used instead. Here is a <a href="https://www.statsmodels.org/stable/examples/notebooks/generated/statespace_forecasting.html#Cross-validation">description from <code>statsmodels</code></a>:</p>
-<blockquote><p>A common use case is to cross-validate forecasting methods by 
-performing h-step-ahead forecasts recursively using the following
-process:&gt; &gt; - Fit model parameters on a training sample</p>
+<p>"A common use case is to cross-validate forecasting methods by performing h-step-ahead forecasts recursively using the following process"</p>
 <ul>
+<li>Fit model parameters on a training sample</li>
 <li>Produce h-step-ahead forecasts from the end of that sample</li>
 <li>Compare forecasts against test dataset to compute error rate</li>
 <li>Expand the sample to include the next observation, and repeat</li>
 </ul>
-</blockquote>
 
 </div>
 </div>
