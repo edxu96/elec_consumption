@@ -1,6 +1,6 @@
 """Functions for clustering analysis."""
 import itertools
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 
 from loguru import logger
 import networkx as nx
@@ -13,7 +13,7 @@ import seaborn as sns
 __all__ = ['init_graph_weight']
 
 
-def mst_corr(df: DataFrame) -> nx.Graph:
+def mst_corr(df: DataFrame) -> Tuple[nx.Graph, nx.Graph]:
     """Init complete graph with correlations and exec min span tree.
 
     Warning:
@@ -45,7 +45,7 @@ def mst_corr(df: DataFrame) -> nx.Graph:
 
     tree_generator = nx.maximum_spanning_edges(graph, weight='corr')
     tree = nx.from_edgelist(tree_generator)
-    return tree
+    return tree, graph
 
 
 def keep_cluster(tree: nx.Graph, n_clusters: int) -> DataFrame:
