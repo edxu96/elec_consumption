@@ -16,6 +16,7 @@ sklearn = "^0.0"
 loguru = "^0.5.3"
 networkx = "^2.5"
 fbprophet = "^0.7.1"
+statsmodels = "^0.12.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.1.2"
