@@ -2,7 +2,7 @@
 SHELL := /bin/bash
 SRC = $(wildcard ./*.ipynb)
 
-all: elec_consumption docs
+all: elec_consumption docs test
 
 elec_consumption: $(SRC)
 	poetry run nbdev_build_lib
