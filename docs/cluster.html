@@ -60,32 +60,11 @@ nb_path: "00_cluster.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>When number of clusters is set to 4, for example, result shows big differences in sizes of clusters. The reason is that units in last three clusters do not have strong correlation with any other unit. That is, they are outliers. Though their distribution among clusters does not have a huge impact, they prevent the algorithm to process units in the first big cluster.</p>
+<p>When number of clusters is set to 4, for example, differences in sizes -- 497, 1, 1, 1 respectively -- are significant. The reason is that units in last three clusters do not have strong correlation with any other unit. That is, they are outliers. Though their distribution among clusters does not have a huge impact, they prevent the algorithm to process units in the first big cluster.</p>
 
 </div>
 </div>
 </div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[497, 1, 1, 1]
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>A method based on weighted graphs is proposed in the following section to handle this issue.</p>
@@ -95,15 +74,15 @@ nb_path: "00_cluster.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="3.-Max-Spanning-Tree-on-Distance-Matrix">3. Max Spanning Tree on Distance Matrix<a class="anchor-link" href="#3.-Max-Spanning-Tree-on-Distance-Matrix"> </a></h2><p>AHC using single linkage is an optimisation problem in essence. To run max spanning tree on distance matrix yields better result, actually. Another advantage of this approach is that the complete graph (with lightgrey-coloured edges in the following figure), which represesnts the distance matrix, provide a more intuitive to choose clusters.</p>
-<p>Units 70 ~ 99 are considered in the following example, in order to have a clear figure.</p>
+<h2 id="3.-Max-Spanning-Tree-on-Distance-Matrix">3. Max Spanning Tree on Distance Matrix<a class="anchor-link" href="#3.-Max-Spanning-Tree-on-Distance-Matrix"> </a></h2><p>AHC using single linkage is an optimisation problem in essence. To run max spanning tree on distance matrix yields better result, actually. Another advantage of this approach is that the complete graph (with lightgrey-coloured edges in the following figure), which represesnts the distance matrix, provides a more intuitive way to choose clusters.</p>
+<p>Units 70 ~ 99 are considered in the following example, resulting a clearer figure.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The min spanning tree of the complete graph is highlighted by black edges. According to the following table, there are two units with high degrees: 77 and 79. They can be seen as representative units. Besides, based on the figure, it seems to be a good idea to have another cluster, represented by unit 99.</p>
+<p>The min spanning tree of the complete graph is highlighted by black edges. The following table highlights two units with high degrees: 77 and 79. They can be seen as representative units for two clusters. Besides, based on the graph figure, it seems to be a good idea to have another cluster, represented by unit 99.</p>
 
 </div>
 </div>
@@ -210,32 +189,11 @@ nb_path: "00_cluster.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The resulted cluster household 77 being representative unit, for example, has following members:</p>
+<p>The resulted cluster with household 77 being representative unit, for example, has another 10 members: 71, 76, 77, 82, 86, 88, 92, 94, 95, and 97.</p>
 
 </div>
 </div>
 </div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[70, 71, 76, 77, 82, 86, 88, 92, 94, 95, 97]
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The distance matrix can be sorted according to clusters. Here is a heatmap for the previous example. Correlations between members within clusters are shown by three diagonal block matrices, whose entries seem to have higher values. In constrast, off-diagonal block matrices represent inter-cluster correlations, which tend to be low and even negative. So the clustering result is satisfying.</p>
