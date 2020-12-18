@@ -572,8 +572,10 @@ nb_path: "01_regression.ipynb"
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="4.-Future-Work">4. Future Work<a class="anchor-link" href="#4.-Future-Work"> </a></h2><ul>
-<li>To combine multiple series belonging to different units is not a good idea, through there is a simple way to do it (<a href="https://stats.stackexchange.com/a/23123/231405">estimating same model over multiple time series, <code>crossvalidated</code></a>).</li>
+<li>To combine multiple series belonging to different units is not a good idea, through there is a simple way to do it (<a href="https://stats.stackexchange.com/a/23123/231405">estimating same model over multiple time series, <code>crossvalidated</code></a>). As suggested before, there are trending components. Though they can be offset, such information is lost.</li>
 <li>Apply more flexible methods and tune parameters using pseudo out-of-sample validation.</li>
+<li>Generalized estimating equations (GEE) can be a next-stage model, because clustering results can be taken into consideration, though to apply GEE to time series is not easy. There are more training data when a general model for profiles in a whole cluster is to be built. Besides, scaling and translation variances should be removed first.</li>
+<li>The fact that profiles are non-stationary because of weekends and holidays is challenging. It might help if same profile can be divided into two batches. Because the batch for such non-business-days has less observations, those from different households in the same cluster can be combined into one training set.</li>
 </ul>
 
 </div>
