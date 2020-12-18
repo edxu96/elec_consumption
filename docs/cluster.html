@@ -33,7 +33,7 @@ nb_path: "00_cluster.ipynb"
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="1.-Introduction">1. Introduction<a class="anchor-link" href="#1.-Introduction"> </a></h2><p>There are at least two challenges in this task:</p>
 <ol>
-<li>Too many missing days distribute differently among houeholds.</li>
+<li>Too many missing days distribute differently among units.</li>
 <li>All series are non-stationary because of non-business-days.</li>
 </ol>
 <h3 id="Why-not-k-Means">Why not k-Means<a class="anchor-link" href="#Why-not-k-Means"> </a></h3><p>There are dedicated implementation of k-means clustering for time series, like <code>tslearn.clustering.TimeSeriesKMeans</code>. However, missing entries must be filled with meaningfull values first, or the algorithm does not work. As shown before, there are only 186 time index when entries are complete. Clearly, neither to fill with 0 nor to interpolate is a good choice in terms of time series.</p>
@@ -75,7 +75,13 @@ nb_path: "00_cluster.ipynb"
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="3.-Max-Spanning-Tree-on-Distance-Matrix">3. Max Spanning Tree on Distance Matrix<a class="anchor-link" href="#3.-Max-Spanning-Tree-on-Distance-Matrix"> </a></h2><p>AHC using single linkage is an optimisation problem in essence. To run max spanning tree on distance matrix yields better result, actually. Another advantage of this approach is that the complete graph (with lightgrey-coloured edges in the following figure), which represesnts the distance matrix, provides a more intuitive way to choose clusters.</p>
-<p>Units 70 ~ 99 are considered in the following example, resulting a clearer figure.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Demo-with-Units-70-~-99">Demo with Units 70 ~ 99<a class="anchor-link" href="#Demo-with-Units-70-~-99"> </a></h3><p>Units 70 ~ 99 are considered in the following example, resulting a clearer figure.</p>
 
 </div>
 </div>

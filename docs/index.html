@@ -1,6 +1,6 @@
 ---
 
-title: elec_consumption
+title: elec_consumption: clustering and regression for power consumption profiles
 
 
 keywords: fastai
@@ -31,8 +31,8 @@ nb_path: "index.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="1.-Introduction">1. Introduction<a class="anchor-link" href="#1.-Introduction"> </a></h2><p>There are 500 time series spanning 122 days (Aug 1, 2017 to Nov 30, 2017).</p>
-<p>Preview first five rows for first five households. Unit is presumed to be kV.</p>
+<h2 id="1.-Introduction">1. Introduction<a class="anchor-link" href="#1.-Introduction"> </a></h2><p>There are 500 power consumption profiles from 500 households (units) spanning 122 days (Aug 1, 2017 to Nov 30, 2017).</p>
+<p>First five observations of first five households are previewed. Physical unit of entries is not mentioned in the data set, and is presumed to be kiloWatt (kW). The physical unit only matters in interpretation because forecasted values are more or less the same.</p>
 
 </div>
 </div>
@@ -271,42 +271,19 @@ nb_path: "index.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="3.-Handle-Missing-Entries">3. Handle Missing Entries<a class="anchor-link" href="#3.-Handle-Missing-Entries"> </a></h2><ul>
+<h2 id="3.-Handle-Missing-Entries">3. Handle Missing Entries<a class="anchor-link" href="#3.-Handle-Missing-Entries"> </a></h2><p>The distribution of missing entries can be summarised as:</p>
+<ul>
 <li>For households 162, 428 and 432, two entries in different sets of dates are missed".</li>
 <li>For all the other households, 48 entries in different sets of dates are missed.</li>
+<li>There are only 186 time points when data is complete.</li>
 </ul>
-<p><code>NaN</code> values can be filled with 0, but it will distort clustering.</p>
-
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">186</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><del>It seems that two sets of missing days corresponding to any pair of households (except 162, 428, 432) are differentiated by 1 dates.</del></p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Linear interpolation is not very useful.</p>
+<p>Linear interpolation is not very useful. For example, how entries Aug 16, 2017 for household 0 are filled can be plotted. Such interpolation can distored both clustering and regression results.</p>
 
 </div>
 </div>
