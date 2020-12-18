@@ -569,8 +569,11 @@ nb_path: "00_cluster.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="5.-How-to-Improve">5. How to Improve<a class="anchor-link" href="#5.-How-to-Improve"> </a></h2><ul>
+<h2 id="5.-Future-Work">5. Future Work<a class="anchor-link" href="#5.-Future-Work"> </a></h2><ul>
+<li>Multiple results with different number of clusters should be investigated.</li>
 <li><strong>Structured clustering</strong> is to cluster based on parameters in statistical models. It is especially handy to cluster time series.</li>
+<li>Pearson coefficients are based on original profiles for now. Scaling (amplitude) and translation (offset) variances most likely dominate clustering results. Preprocessing can be applied to reduce such effect.</li>
+<li>Sum of inter-cluster correlations should be minimised at the same time, the problem can be formulated as an MILP, which, however, can be NP-hard.</li>
 </ul>
 
 </div>
