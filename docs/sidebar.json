@@ -2,6 +2,7 @@
   "elec_consumption": {
     "Overview": "/",
     "Clustering": "clustering.html",
-    "Regression": "regression.html"
+    "Regression": "regression.html",
+    "Summary: Why and How": "summary.html"
   }
 }
