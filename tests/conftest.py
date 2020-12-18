@@ -7,7 +7,7 @@ import pytest
 @pytest.fixture(scope='module')
 def profiles() -> DataFrame:
     """Prepare 500 household power consumption profiles.
-    
+
     Returns:
         500 household power consumption profiles in half-hour
         resolution.

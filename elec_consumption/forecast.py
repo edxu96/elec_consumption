@@ -14,13 +14,13 @@ logging.disable(sys.maxsize)
 
 
 def fit_sarima(series: Series) -> Series:
-    """Fit a SARIMA model with AR1, MA1, and 7-season AR1.
+    """Fit SARIMA with AR1, MA1, and 7-season AR1 for a daily profile.
 
     Note:
         Series with NaN entries can be passed.
 
     Args:
-        series: training data.
+        series: a daily power consumption profile.
 
     Returns:
         Three forecasted values.
@@ -32,8 +32,19 @@ def fit_sarima(series: Series) -> Series:
     return mod.forecast(3)
 
 
-def fit_prophet(df: Series) -> Series:
-    ts = df.to_frame().reset_index()  # to Prophet time series
+def fit_prophet(series: Series) -> Series:
+    """Fit a Prophet model for a daily profile.
+
+    Note:
+        Series with NaN entries can be passed.
+
+    Args:
+        series: a daily power consumption profile.
+
+    Returns:
+        Three forecasted values.
+    """
+    ts = series.to_frame().reset_index()  # to Prophet time series
     ts.columns = ['ds', 'y']
 
     mod = Prophet()
@@ -73,4 +84,35 @@ def validate(
         res['last_training_date'] = df.index[last_training_idx]
         res.reset_index(inplace=True)
         res.columns = ['date', 'resid', 'last_training_date']
+    return res
+
+
+def fit_prophet_hourly(series: Series) -> Series:
+    """Fit a Prophet model for an hourly profile.
+
+    Note:
+        Series with NaN entries can be passed.
+
+    Args:
+        series: an hourly power consumption profile.
+
+    Returns:
+        Three forecasted values.
+    """
+    ts = series.to_frame().reset_index()  # to Prophet time series
+    ts.columns = ['ds', 'y']
+
+    mod = Prophet()
+    mod.fit(ts)
+
+    df_future = mod.make_future_dataframe(
+        periods=4, freq='H', include_history=False
+    )
+    df = mod.predict(df_future)
+
+    res = df[['ds', 'yhat']].tail(4)
+    res.set_index('ds', inplace=True)
+    res = res['yhat']
+    res.index.name = None
+
     return res
