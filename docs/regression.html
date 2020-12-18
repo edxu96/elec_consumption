@@ -31,7 +31,9 @@ nb_path: "01_regression.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="1.-Introduction">1. Introduction<a class="anchor-link" href="#1.-Introduction"> </a></h2><p>To combine multiple series belonging to different units is not a good idea, through there is a simple way to do it (<a href="https://stats.stackexchange.com/a/23123/231405">estimating same model over multiple time series, <code>crossvalidated</code></a>).</p>
+<h2 id="1.-Introduction">1. Introduction<a class="anchor-link" href="#1.-Introduction"> </a></h2><p>Methods for two sets of forecasts, using hourly and daily profiles respectively, are discussed here.</p>
+<h3 id="Why-not-Multivariate-Time-Series">Why not Multivariate Time Series<a class="anchor-link" href="#Why-not-Multivariate-Time-Series"> </a></h3><p>It is known that there is no relationship between profiles from different households, because their behaviours are not directly correlated. The only regressor considered should be time. Others like temperature may contribute, but are unknown for now.</p>
+<p>So it is not necessary to use vector auto regression (VAR). Profiles can be modelled independently.</p>
 <h3 id="Why-Facebook-Prophet">Why Facebook <code>Prophet</code><a class="anchor-link" href="#Why-Facebook-Prophet"> </a></h3><p><code>Prophet</code> is an open-source package for modelling and forecasting univariate time series by Facebook. Its model structure is similar to that of generalised additive models (GAM), where distinct non-linear terms are integrated in a linear way. <code>Prophet</code> works best when the series shows strong and multiple seasonality, and it is robust to missing values and effect from holidays, making it the perfect choice in our case.</p>
 
 </div>
@@ -505,7 +507,7 @@ nb_path: "01_regression.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The test is supported by ACF. Missing values are dropped.</p>
+<p>The test is supported by ACF, when missing values are dropped.</p>
 
 </div>
 </div>
@@ -537,7 +539,7 @@ nb_path: "01_regression.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Such information can be modelled by a SARIMA with AR1, AR1 (24), MA1 (24).</p>
+<p>Such information can be modelled by a SARIMA with AR1, AR1 (24), MA1 (24). Independence assumptions in lags 1, 2, 3, 4, and 5 are not rejected, so the model has been improved.</p>
 
 </div>
 </div>
@@ -569,21 +571,23 @@ nb_path: "01_regression.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Independence assumptions in lags 1, 2, 3, 4, and 5 are not rejected, so the model has been improved.</p>
+<p>However, the model is still not satisfying, because it does not pass normality test and heteroskedasticity test.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The model is still not satisfying, because it does not pass normality test and heteroskedasticity test.</p>
+<h2 id="4.-Future-Work">4. Future Work<a class="anchor-link" href="#4.-Future-Work"> </a></h2><ul>
+<li>To combine multiple series belonging to different units is not a good idea, through there is a simple way to do it (<a href="https://stats.stackexchange.com/a/23123/231405">estimating same model over multiple time series, <code>crossvalidated</code></a>).</li>
+</ul>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="4.-Result">4. Result<a class="anchor-link" href="#4.-Result"> </a></h2>
+<h2 id="5.-Result">5. Result<a class="anchor-link" href="#5.-Result"> </a></h2>
 </div>
 </div>
 </div>
