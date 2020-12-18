@@ -428,7 +428,7 @@ nb_path: "01_regression.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Unfortunately, it is impossible to apply seasonal ARIMA, because of multiple seasonality.</p>
+<p>Unfortunately, it is impossible to apply seasonal ARIMA, because of the multiple seasonality.</p>
 
 </div>
 </div>
@@ -494,20 +494,13 @@ nb_path: "01_regression.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Autocorrelation-Tests-and-ARIMA-Model">Autocorrelation Tests and ARIMA Model<a class="anchor-link" href="#Autocorrelation-Tests-and-ARIMA-Model"> </a></h3>
+<h3 id="Autocorrelation-Tests">Autocorrelation Tests<a class="anchor-link" href="#Autocorrelation-Tests"> </a></h3>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>All the Ljung-Box tests for lags 1, 2, 3, 4, 5, 24, and 168 reject the assumption that the residual is not correlated.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The test is supported by ACF, when missing values are dropped.</p>
+<p>All the Ljung-Box tests for lags 1, 2, 3, 4, 5, 24, and 168 reject the assumption that the residual is not auto-correlated. The test result is supported by ACF, when missing values are dropped.</p>
 
 </div>
 </div>
@@ -539,7 +532,7 @@ nb_path: "01_regression.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Such information can be modelled by a SARIMA with AR1, AR1 (24), MA1 (24). Independence assumptions in lags 1, 2, 3, 4, and 5 are not rejected, so the model has been improved.</p>
+<h3 id="Seasonal-ARIMA-for-Residuals">Seasonal ARIMA for Residuals<a class="anchor-link" href="#Seasonal-ARIMA-for-Residuals"> </a></h3><p>Such information can be modelled by a SARIMA with AR1, AR1 (24), MA1 (24). Then, independence assumptions in lags 1, 2, 3, 4, and 5 are not rejected. So, the model has been improved, which is supported by the following ACF.</p>
 
 </div>
 </div>
@@ -578,6 +571,13 @@ nb_path: "01_regression.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>Pseudo out-of-sample validation for <code>Prophet</code> and <code>Prophet</code> + season ARIMA has not been finished. So <code>Prophet</code> is used to make 4-step forecast.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="4.-Future-Work">4. Future Work<a class="anchor-link" href="#4.-Future-Work"> </a></h2><ul>
 <li>To combine multiple series belonging to different units is not a good idea, through there is a simple way to do it (<a href="https://stats.stackexchange.com/a/23123/231405">estimating same model over multiple time series, <code>crossvalidated</code></a>).</li>
 <li>Apply more flexible methods and tune parameters using pseudo out-of-sample validation.</li>
@@ -590,8 +590,8 @@ nb_path: "01_regression.ipynb"
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="5.-Results">5. Results<a class="anchor-link" href="#5.-Results"> </a></h2><p>Two sets of forecasts for 500 households are made:</p>
 <ul>
-<li><a href="https://github.com/edxu96/elec_consumption/blob/master/results/three_step_daily.csv">3-step forecasts based on daily profile, in a comma-separated CSV file</a></li>
-<li><a href="https://github.com/edxu96/elec_consumption/blob/master/results/four_step_hourly.csv">4-step forecasts based on hourly profile, in another comma-separated CSV file</a></li>
+<li>3-step forecasts based on daily profile, done by integrated SARIMA (with AR1, MA1 and weekly seasonal AR1), in <a href="https://github.com/edxu96/elec_consumption/blob/master/results/three_step_daily.csv">a comma-separated CSV file</a></li>
+<li>4-step forecasts based on hourly profile, done by Facebook <code>Prophet</code>, in <a href="https://github.com/edxu96/elec_consumption/blob/master/results/four_step_hourly.csv">another comma-separated CSV file</a></li>
 </ul>
 
 </div>
