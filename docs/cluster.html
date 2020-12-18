@@ -241,7 +241,8 @@ nb_path: "00_cluster.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="4.-Results">4. Results<a class="anchor-link" href="#4.-Results"> </a></h2>
+<h2 id="4.-Effect-of-Different-Resolutions">4. Effect of Different Resolutions<a class="anchor-link" href="#4.-Effect-of-Different-Resolutions"> </a></h2><p>All the units are to be clustered in this section. Hourly and daily down-sampled profiles are used respectively in first two parts, and results are compared.</p>
+
 </div>
 </div>
 </div>
@@ -486,7 +487,8 @@ nb_path: "00_cluster.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Adjusted Rand index: (1 is best; -1 is worst)</p>
+<p>Units are usually labelled by integers in clustering result, and integer values are irrelevant. Some metrics can be used to quantify difference between two clustering results. Three symmetric metrics are used here, because the true label is unknown.</p>
+<p>Adjusted Rand index is 1 when two clustering results are exactly the same, and being -1 corresponds to the biggest difference possible. There are another two indices. Normalized mutual information (NMI) is often used in the literature, while adjusted mutual information (AMI) was proposed more recently and is normalized against chance. (1 is best; negative is bad)</p>
 
 </div>
 </div>
@@ -501,9 +503,56 @@ nb_path: "00_cluster.ipynb"
 <div class="output_area">
 
 
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<div class="output_text output_subarea output_execute_result">
-<pre>-0.015765706306130705</pre>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>index</th>
+      <th>value</th>
+      <th>when results are different</th>
+      <th>when results are similar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>rand</th>
+      <td>adjusted Rand index</td>
+      <td>-0.015766</td>
+      <td>close to -1</td>
+      <td>close to 1</td>
+    </tr>
+    <tr>
+      <th>AMI</th>
+      <td>adjusted mutual information</td>
+      <td>0.016228</td>
+      <td>being negative</td>
+      <td>close to 1</td>
+    </tr>
+    <tr>
+      <th>NMI</th>
+      <td>normalized mutual information</td>
+      <td>0.026368</td>
+      <td>being negative</td>
+      <td>close to 1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 </div>
 
 </div>
@@ -516,57 +565,17 @@ nb_path: "00_cluster.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Normalized Mutual Information (NMI) and Adjusted Mutual Information (AMI). NMI is often used in the literature, while AMI was proposed more recently and is normalized against chance. (1 is best; negative is bad)</p>
+<p>So two clustering results are quite different. There are multiple reasons behind:</p>
+<ul>
+<li>Lots of variation is lost when profiles are down-sampled in daily resolution.</li>
+<li>Outliers (spikes) may distort two results in different manners.</li>
+<li>The fact that missing entries come in batchs has significant impact on clustering with hourly profiles.</li>
+</ul>
+<p>How to handle and analyse such issues is discussed in the next section.</p>
 
 </div>
 </div>
 </div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>0.016227773691172433</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>0.02636824782216774</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="5.-Future-Work">5. Future Work<a class="anchor-link" href="#5.-Future-Work"> </a></h2><ul>
@@ -574,6 +583,7 @@ nb_path: "00_cluster.ipynb"
 <li><strong>Structured clustering</strong> is to cluster based on parameters in statistical models. It is especially handy to cluster time series.</li>
 <li>Pearson coefficients are based on original profiles for now. Scaling (amplitude) and translation (offset) variances most likely dominate clustering results. Preprocessing can be applied to reduce such effect.</li>
 <li>Sum of inter-cluster correlations should be minimised at the same time, the problem can be formulated as an MILP, which, however, can be NP-hard.</li>
+<li>Outlier can be detected and removed, reducing their impact on squared terms in some commands.</li>
 </ul>
 
 </div>
@@ -653,7 +663,7 @@ nb_path: "00_cluster.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Appendix.-Four-Cluster-using-k-Means">Appendix. Four Cluster using k-Means<a class="anchor-link" href="#Appendix.-Four-Cluster-using-k-Means"> </a></h2><p>For example, assume there are 4 clusters.</p>
+<h2 id="Appendix.-Four-Cluster-using-k-Means">Appendix. Four Cluster using k-Means<a class="anchor-link" href="#Appendix.-Four-Cluster-using-k-Means"> </a></h2><p>To show why k-Means clustering is not an ideal choice, it is used here. For example, assume there are 4 clusters.</p>
 
 </div>
 </div>
