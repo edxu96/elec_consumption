@@ -16,7 +16,7 @@ entries:
       title: Regression
       url: regression.html
     - output: web,pdf
-      title: 'Summary: Why and How'
+      title: Summary
       url: summary.html
     output: web
     title: elec_consumption

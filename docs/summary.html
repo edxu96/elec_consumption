@@ -1,6 +1,6 @@
 ---
 
-title: Summary: Why and How
+title: Summary
 
 
 keywords: fastai
@@ -31,6 +31,13 @@ nb_path: "02_summary.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>How to solve the tasks and why that way are discussed here.</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Physical unit of entries is not mentioned in the data set, and is presumed to be kiloWatt (kW). The physical unit only matters in interpretation because forecasted values are more or less the same.</p>
 <p>The distribution of missing entries can be summarised as:</p>
 <ul>
@@ -38,7 +45,7 @@ nb_path: "02_summary.ipynb"
 <li>For all the other households, 48 entries in different sets of dates are missed.</li>
 <li>There are only 186 time points when data is complete.</li>
 </ul>
-<p>Linear interpolation is not very useful.</p>
+<p>Linear interpolation for such missing entries is not very useful.</p>
 
 </div>
 </div>
@@ -63,7 +70,7 @@ nb_path: "02_summary.ipynb"
 <li>It seems to be a good idea to have another cluster, represented by unit 99.</li>
 <li>Weakest links between such three units (two blue edges) are found. If they are removed, the tree becomes a forest with three components, which correspond to three clusters.</li>
 </ul>
-<p><img src="/elec_consumption/./img/MST.png" alt=""></p>
+<p>{% include image.html max-width="400" file="/elec_consumption/./img/MST.png" %}</p>
 <h3 id="How-to-Examine-Clustering-Results">How to Examine Clustering Results<a class="anchor-link" href="#How-to-Examine-Clustering-Results"> </a></h3><p>The distance matrix can be sorted according to clusters. Correlations between members within clusters are supposed to have higher values. In constrast, off-diagonal block matrices represent inter-cluster correlations, which should be low and even negative.</p>
 
 </div>
