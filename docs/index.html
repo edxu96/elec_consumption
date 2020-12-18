@@ -32,7 +32,11 @@ nb_path: "index.ipynb"
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="1.-Introduction">1. Introduction<a class="anchor-link" href="#1.-Introduction"> </a></h2><p>There are 500 power consumption profiles from 500 households (units) spanning 122 days (Aug 1, 2017 to Nov 30, 2017). Clustering and regression for household power consumption profiles are conducted.</p>
-<p>First five observations of first five households are previewed. Physical unit of entries is not mentioned in the data set, and is presumed to be kiloWatt (kW). The physical unit only matters in interpretation because forecasted values are more or less the same.</p>
+<p>First five observations of first five households are previewed. Physical unit of entries is not mentioned in the data set, and is presumed to be <strong>kiloWatt (kW)</strong>. The physical unit only matters in interpretation because forecasted values are more or less the same. If it is electricity indeed, do:</p>
+<ul>
+<li>multiplication with 2 to get hourly electricity consumption,</li>
+<li>and multiplication with 48 to get daily electricity consumption.</li>
+</ul>
 
 </div>
 </div>
