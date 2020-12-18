@@ -15,9 +15,6 @@ entries:
     - output: web,pdf
       title: Forecast
       url: forecast.html
-    - output: web,pdf
-      title: Title
-      url: regression_for_clusters.html
     output: web
     title: elec_consumption
   output: web

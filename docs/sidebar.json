@@ -2,7 +2,6 @@
   "elec_consumption": {
     "Overview": "/",
     "Cluster Analysis": "cluster.html",
-    "Forecast": "forecast.html",
-    "Title": "regression_for_clusters.html"
+    "Forecast": "forecast.html"
   }
 }

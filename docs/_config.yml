@@ -3,7 +3,7 @@ output: web
 topnav_title: elec_consumption
 site_title: elec_consumption
 company_name: "Edward Xu"
-description: "cluster analysis and statistical learning for electricity consumption profiles"
+description: "clustering and regression for power consumption profiles"
 # Set to false to disable KaTeX math
 use_math: true
 # Add Google analytics id if you have one and want to use it here
