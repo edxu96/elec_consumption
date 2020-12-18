@@ -13,17 +13,20 @@ from statsmodels.tsa.arima.model import ARIMA
 logging.disable(sys.maxsize)
 
 
-def fit_sarima(df: Series) -> Series:
-    """Fit a SARIMA model with 1 AR and 1 7-season AR.
+def fit_sarima(series: Series) -> Series:
+    """Fit a SARIMA model with AR1, MA1, and 7-season AR1.
+
+    Note:
+        Series with NaN entries can be passed.
 
     Args:
-        df: training data.
+        series: training data.
 
     Returns:
         Three forecasted values.
     """
     mod = ARIMA(
-        endog=df, order=(1, 0, 0), freq='D',
+        endog=series, order=(1, 1, 1), freq='D',
         seasonal_order=(1, 0, 0, 7),
     ).fit()
     return mod.forecast(3)
