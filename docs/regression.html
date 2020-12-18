@@ -31,9 +31,8 @@ nb_path: "01_regression.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="1.-Introduction">1. Introduction<a class="anchor-link" href="#1.-Introduction"> </a></h2><p>Methods for two sets of forecasts, using hourly and daily profiles respectively, are discussed here.</p>
-<h3 id="Why-not-Multivariate-Time-Series">Why not Multivariate Time Series<a class="anchor-link" href="#Why-not-Multivariate-Time-Series"> </a></h3><p>It is known that there is no relationship between profiles from different households, because their behaviours are not directly correlated. The only regressor considered should be time. Others like temperature may contribute, but are unknown for now.</p>
-<p>So it is not necessary to use vector auto regression (VAR). Profiles can be modelled independently.</p>
+<h2 id="1.-Introduction">1. Introduction<a class="anchor-link" href="#1.-Introduction"> </a></h2><p>Methods for two sets of forecasts, using hourly and daily profiles respectively, are discussed here. Profiles are modelled independently for now.</p>
+<h3 id="Why-not-Multivariate-Time-Series">Why not Multivariate Time Series<a class="anchor-link" href="#Why-not-Multivariate-Time-Series"> </a></h3><p>It is known that there is no relationship between profiles from different households, because their behaviours are not directly correlated. The only regressor considered should be time. Others like temperature may contribute, but are unknown for now. So it is not necessary to use vector auto regression (VAR).</p>
 <h3 id="Why-Facebook-Prophet">Why Facebook <code>Prophet</code><a class="anchor-link" href="#Why-Facebook-Prophet"> </a></h3><p><code>Prophet</code> is an open-source package for modelling and forecasting univariate time series by Facebook. Its model structure is similar to that of generalised additive models (GAM), where distinct non-linear terms are integrated in a linear way. <code>Prophet</code> works best when the series shows strong and multiple seasonality, and it is robust to missing values and effect from holidays, making it the perfect choice in our case.</p>
 
 </div>
@@ -54,7 +53,7 @@ nb_path: "01_regression.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Here is resulted Line plot from the model. Point forecasts and confidence intervals are plotted.</p>
+<p>Point forecasts and confidence intervals are plotted.</p>
 
 </div>
 </div>
@@ -198,6 +197,13 @@ nb_path: "01_regression.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>Residual analysis for this <code>Prophet</code> model has not been finished. Some of the techniques are demonstrated in specification tests and autocorrelation tests in section 3.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Seasonal-ARIMA">Seasonal ARIMA<a class="anchor-link" href="#Seasonal-ARIMA"> </a></h3><p>It is impossible to plot ACF and PACF for original series because of missing entries. As discussed before, they are adjacent so it is hard to fill with meaningful values. Previous result provides a starting point. To have a weekly season is a good idea, and it should be "integrated", in order to remove the long-term trend.</p>
 
 </div>
@@ -244,7 +250,7 @@ nb_path: "01_regression.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Pseudo-Out-of-Sample-Validation">Pseudo Out-of-Sample Validation<a class="anchor-link" href="#Pseudo-Out-of-Sample-Validation"> </a></h3><p>There are systematic ways for validation. It is challenging to conduct a cross validation for time series models, especially when there is long-term trend. Pseudo out-of-sample validation is used instead. Here is a <a href="https://www.statsmodels.org/stable/examples/notebooks/generated/statespace_forecasting.html#Cross-validation">description from <code>statsmodels</code></a>:</p>
+<h3 id="Pseudo-Out-of-Sample-Validation">Pseudo Out-of-Sample Validation<a class="anchor-link" href="#Pseudo-Out-of-Sample-Validation"> </a></h3><p>It is challenging to conduct a cross validation for time series models, especially when there is long-term trend. Pseudo out-of-sample validation is used instead. Here is a <a href="https://www.statsmodels.org/stable/examples/notebooks/generated/statespace_forecasting.html#Cross-validation">description from <code>statsmodels</code></a>:</p>
 <p>"A common use case is to cross-validate forecasting methods by performing h-step-ahead forecasts recursively using the following process"</p>
 <ul>
 <li>Fit model parameters on a training sample</li>
@@ -265,7 +271,7 @@ nb_path: "01_regression.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>MSE of 3-step forecast using seasonal ARIMA is 0.00370, which is 3.94 % higher than MSE using Prophet, and its root is 49.78 % of mean power consumption. Despite of the increment, this model structure will be used to model all other daily profiles.</p>
+<p>MSE of 3-step forecast using seasonal ARIMA is 0.00370, which is 3.94 % higher than MSE using Prophet, and its root is 49.78 % of mean power consumption. Despite of the increment, this model structure will be used to model all other daily profiles. Two approaches are essential the same. It is easier to interpret seasonal ARIMA, but it cannot be used for hourly profiles, which is discussed in the following section.</p>
 
 </div>
 </div>
@@ -564,7 +570,7 @@ nb_path: "01_regression.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Pseudo out-of-sample validation for <code>Prophet</code> and <code>Prophet</code> + season ARIMA has not been finished. So <code>Prophet</code> is used to make 4-step forecast.</p>
+<p>Pseudo out-of-sample validations for <code>Prophet</code> and that with additional seasonal ARIMA have not been finished. So <code>Prophet</code> is used to make 4-step forecast.</p>
 
 </div>
 </div>
