@@ -10,11 +10,11 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
-      title: Cluster Analysis
-      url: cluster.html
+      title: Clustering
+      url: clustering.html
     - output: web,pdf
-      title: Forecast
-      url: forecast.html
+      title: Regression
+      url: regression.html
     output: web
     title: elec_consumption
   output: web
