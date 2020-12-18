@@ -34,10 +34,10 @@ nb_path: "00_clustering.ipynb"
 <h2 id="1.-Introduction">1. Introduction<a class="anchor-link" href="#1.-Introduction"> </a></h2><p>There are at least two challenges in this task:</p>
 <ol>
 <li>Too many missing days distribute differently among units.</li>
-<li>All series are non-stationary because of non-business-days.</li>
+<li>All series are non-stationary because of non-business-days, long-term trends, and seasonality.</li>
 </ol>
 <h3 id="Why-not-k-Means">Why not k-Means<a class="anchor-link" href="#Why-not-k-Means"> </a></h3><p>There are dedicated implementation of k-means clustering for time series, like <code>tslearn.clustering.TimeSeriesKMeans</code>. However, missing entries must be filled with meaningfull values first, or the algorithm does not work. As shown before, there are only 186 time index when entries are complete. Clearly, neither to fill with 0 nor to interpolate is a good choice in terms of time series.</p>
-<p>Monte Carlo simulations can be used, but the resulted effect is not known. The argument is that such common clustering algorithms rely on calculation of cluster centres, which involve multiple units at the same time. Nevertheless, the joint set of missing days from those units might be large compared to that from pair-wise units, so simulated entries exist in more time index, distorting cluster centres.</p>
+<p>Monte Carlo simulations can be used, but the resulted effect is not known. The argument is that most clustering algorithms rely on calculation of cluster centres, which involves multiple units at the same time. Nevertheless, the joint set of missing days from those units might be large compared to that from pair-wise units, so simulated entries exist in more time index, distorting cluster centres.</p>
 <p>Moreover, most methods to validate cluster results are based on original data, so they cannot be used, either. Probably the only option left is to validate based on pair-wise similarity measures, like Euclidean distance and Pearson correlation.</p>
 <p>For these reasons, it is a good idea to use agglomerative hierarchical clustering with single linkage, which is discussed in the following section.</p>
 
@@ -60,7 +60,7 @@ nb_path: "00_clustering.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>When number of clusters is set to 4, for example, differences in sizes -- 497, 1, 1, 1 respectively -- are significant. The reason is that units in last three clusters do not have strong correlation with any other unit. That is, they are outliers. Though their distribution among clusters does not have a huge impact, they prevent the algorithm to process units in the first big cluster.</p>
+<h3 id="Why-it-does-not-Work">Why it does not Work<a class="anchor-link" href="#Why-it-does-not-Work"> </a></h3><p>When number of clusters is set to 4, for example, differences in sizes -- 497, 1, 1, 1 respectively -- are significant. The reason is that units in last three clusters do not have strong correlation with any other unit. That is, they are outliers. Though their distribution among clusters does not have a huge impact, they prevent the algorithm to process units in the first big cluster.</p>
 
 </div>
 </div>
@@ -88,7 +88,7 @@ nb_path: "00_clustering.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The min spanning tree of the complete graph is highlighted by black edges. The following table highlights two units with high degrees: 77 and 79. They can be seen as representative units for two clusters. Besides, based on the graph figure, it seems to be a good idea to have another cluster, represented by unit 99.</p>
+<p>The max spanning tree of the complete graph is highlighted by black edges. The following table highlights two units with high degrees: 77 and 79. They can be seen as representative units for two clusters. Besides, based on the graph figure, it seems to be a good idea to have another cluster, represented by unit 99.</p>
 
 </div>
 </div>
@@ -234,7 +234,7 @@ nb_path: "00_clustering.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>To determine the number of clusters is not a trivial task. With distance matrix and max spanning tree visualised, it is relatively easier to try different numbers and validate results using heatmaps.</p>
+<p>To determine the number of clusters is not a trivial task. With distance matrix and max spanning tree visualised, it is relatively easier to try different numbers and validate results using heatmaps. However, this issue has not been addressed for now.</p>
 
 </div>
 </div>
@@ -580,7 +580,7 @@ nb_path: "00_clustering.ipynb"
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="5.-Future-Work">5. Future Work<a class="anchor-link" href="#5.-Future-Work"> </a></h2><ul>
 <li>Multiple results with different number of clusters should be investigated.</li>
-<li><strong>Structured clustering</strong> is to cluster based on parameters in statistical models. It is especially handy to cluster time series.</li>
+<li>Model-based clustering is to cluster based on parameters in statistical models. It is especially handy to cluster time series.</li>
 <li>Pearson coefficients are based on original profiles for now. Scaling (amplitude) and translation (offset) variances most likely dominate clustering results. Preprocessing can be applied to reduce such effect.</li>
 <li>Sum of inter-cluster correlations should be minimised at the same time, the problem can be formulated as an MILP, which, however, can be NP-hard.</li>
 <li>Outlier can be detected and removed, reducing their impact on squared terms in some commands.</li>
