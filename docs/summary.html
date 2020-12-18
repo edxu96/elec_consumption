@@ -71,11 +71,7 @@ nb_path: "02_summary.ipynb"
 <p>{% include image.html max-width="600" file="/elec_consumption/./img/MST.png" %}</p>
 <h3 id="How-to-Examine-Clustering-Results">How to Examine Clustering Results<a class="anchor-link" href="#How-to-Examine-Clustering-Results"> </a></h3><p>Most methods to validate cluster results are based on original data, so they cannot be used, either. Probably the only option left is to validate based on pair-wise similarity measures, like Euclidean distance and Pearson correlation.</p>
 <p>The distance matrix can be sorted according to clusters. Correlations between members within clusters are supposed to have higher values. In constrast, off-diagonal block matrices represent inter-cluster correlations, which should be low and even negative.</p>
-<h3 id="Results">Results<a class="anchor-link" href="#Results"> </a></h3><p>Clustering results are stored in dictionaries, which use representative units as keys.</p>
-<ul>
-<li>clusters based on hourly profiles, in <a href="https://github.com/edxu96/elec_consumption/tree/master/results/hourly.json">a json file</a></li>
-<li>clusters based on daily profiles, in <a href="https://github.com/edxu96/elec_consumption/tree/master/results/daily.json">another json file</a></li>
-</ul>
+<h3 id="Results">Results<a class="anchor-link" href="#Results"> </a></h3><p>Clustering results based on <a href="https://github.com/edxu96/elec_consumption/tree/master/results/hourly.json">hourly profiles</a> and on <a href="https://github.com/edxu96/elec_consumption/tree/master/results/daily.json">daily profiles</a>.</p>
 
 </div>
 </div>
@@ -84,9 +80,8 @@ nb_path: "02_summary.ipynb"
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2.-Regression">2. Regression<a class="anchor-link" href="#2.-Regression"> </a></h2><h3 id="Why-Facebook-Prophet">Why Facebook <code>Prophet</code><a class="anchor-link" href="#Why-Facebook-Prophet"> </a></h3><p><code>Prophet</code> is an open-source package for modelling and forecasting univariate time series by Facebook. Its model structure is similar to that of generalised additive models (GAM), where distinct non-linear terms are integrated in a linear way. <code>Prophet</code> works best when the series shows strong and multiple seasonality, and it is robust to missing values and effect from holidays, making it the perfect choice in our case.</p>
 <h3 id="Seasonal-ARIMA">Seasonal ARIMA<a class="anchor-link" href="#Seasonal-ARIMA"> </a></h3><p>It is impossible to plot ACF and PACF for original series because of missing entries. As discussed before, they are adjacent so it is hard to fill with meaningful values. Result from <code>Prophet</code> provides a starting point. To have a weekly season is a good idea, and it should be "integrated", in order to remove the long-term trend. An <strong>integrated SARIMA (with AR1, MA1 and weekly seasonal AR1) structure</strong> is used for all daily profiles.</p>
-<p>There are daily and weekly seasonal components in hourly profiles, which cannot be modelled by any seasonal ARIMA at the same time.</p>
-<h3 id="Model-Validation">Model Validation<a class="anchor-link" href="#Model-Validation"> </a></h3><p>There are systematic ways for validation. It is challenging to conduct a cross validation for time series models, especially when there is long-term trend. <strong>Pseudo out-of-sample validation</strong> is used instead.</p>
-<p>Validation results show that seasonal ARIMA is good enough for daily profiles, compared to <code>Prophet</code>.</p>
+<p>There are daily and weekly seasonal components in hourly profiles, which cannot be modelled by any seasonal ARIMA at the same time. So it cannot be used.</p>
+<h3 id="Model-Validation">Model Validation<a class="anchor-link" href="#Model-Validation"> </a></h3><p>There are systematic ways for validation. It is challenging to conduct a cross validation for time series models, especially when there is long-term trend. <strong>Pseudo out-of-sample validation</strong> is used instead. Validation results show that seasonal ARIMA is good enough for daily profiles, compared to <code>Prophet</code>.</p>
 <h3 id="Results">Results<a class="anchor-link" href="#Results"> </a></h3><p>Two sets of forecasts for 500 households are made <strong>Note that the physical unit is <a href="https://edxu96.github.io/elec_consumption/#1.-Introduction">presumed to be kiloWatt</a>.</strong></p>
 <ul>
 <li>3-step forecasts based on daily profile, done by integrated SARIMA (with AR1, MA1 and weekly seasonal AR1), in <a href="https://github.com/edxu96/elec_consumption/blob/master/results/three_step_daily.csv">a comma-separated CSV file</a></li>
