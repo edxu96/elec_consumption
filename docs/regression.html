@@ -441,21 +441,14 @@ nb_path: "01_regression.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The assumption that residuals from Prophet model is rejected.</p>
+<p>The assumption that residuals from Prophet model are normally distributed is rejected. Furthermore, according to White's test for Heteroscedasticity, variance of residuals does vary with power consumptions.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>According to White's test for Heteroscedasticity, variance of residuals does vary with power consumptions.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>As suggested by the previous test, variance of residuals increases with respect to power consumptions. That is, when power consumption is high, the in-sample forcast is expected to have a high residual. The same goes for out-of-sample forecasts.</p>
+<p>When power consumption is high, the in-sample forcast is expected to have a large deviance. The same should go for out-of-sample forecasts.</p>
 
 </div>
 </div>
