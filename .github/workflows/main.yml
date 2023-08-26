@@ -13,9 +13,17 @@ jobs:
       uses: abatilo/actions-poetry@v2
       with:
         poetry-version: '1.5.1'
-    - name: Install the library
+    - name: Update dependencies
       run: |
         python -m pip install --upgrade pip setuptools wheel
+        poetry update
+    - name: Commit Poetry lock file
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: "update dependencies using Poetry [skip ci]"
+        file_pattern: "poetry.lock"
+    - name: Install the library
+      run: |
         poetry install
         poetry env use python3.7
         poetry env info
